@@ -10,7 +10,7 @@ Description: A simple API endpoint for response http status codes
    Access the endpoint at ***localhost:8080/status/[code number]***<br/>
    Eg: localhost:8080/status/404 <br/>
    => This will return a document with **404** status<br/>
-2. Opens executable file by double-clicking a file inside **executables** folder that is compatible with your system. 
+2. Opens executable file by double-clicking release file that is compatible with your system. 
 3. Accesses API through already hosted link, please follow the format below:<br/>
    **https://arcane-basin-93470.herokuapp.com/status/[_code number_]**<br/>
    Eg: https://arcane-basin-93470.herokuapp.com/status/200 <br/>
