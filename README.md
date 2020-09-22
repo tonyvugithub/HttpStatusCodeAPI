@@ -16,7 +16,7 @@ Description: A simple API endpoint for response http status codes
    Eg: https://arcane-basin-93470.herokuapp.com/status/200 <br/>
    => This will return a document with **200** status<br/>
 
-### Features
+## Features
 1. Add delay time for response, by simply include a delay query <br/>
 Eg1: \[host]/status/503?delay=10  => response with status code 503 after 10 seconds <br/>
 Eg2: \[host]/status/500?delay=10s => response with status code 500 after 10 seconds <br/>
