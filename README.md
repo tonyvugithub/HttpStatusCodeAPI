@@ -18,8 +18,8 @@ Description: A simple API endpoint for response http status codes
 
 ### Features
 1. Add delay time for response, by simply include a delay query
-Eg1: \[host]/status/503?delay=10  => response with status code 503 after 10 seconds
-Eg2: \[host]/status/500?delay=10s => response with status code 500 after 10 seconds
-Eg3: \[host]/status/501?delay=5000ms => response with status code 501 after 5000 miliseconds
+Eg1: \[host]/status/503?delay=10  => response with status code 503 after 10 seconds <br/>
+Eg2: \[host]/status/500?delay=10s => response with status code 500 after 10 seconds <br/>
+Eg3: \[host]/status/501?delay=5000ms => response with status code 501 after 5000 miliseconds<br/>
 
 Note: This API has all the status codes that you can get back from GET request, 2xx - 5xx 
