@@ -1,18 +1,55 @@
 package api
 
 import (
+	"errors"
 	"log"
 	"net/http"
+	"regexp"
+	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/tonyvugithub/statusCodeApi/helpers"
 )
+
+func extractDelayQuery(r *http.Request) (int, time.Duration, error) {
+	//Extract "delay" query value if any
+	delays, isProvided := r.URL.Query()["delay"]
+	delay := delays[0]
+	var err error = nil
+	var val int = -1
+	var timeUnit time.Duration = time.Second
+	b := regexp.MustCompile(`^[1-9][0-9]*$`)
+	s := regexp.MustCompile(`^[1-9][0-9]*s$`)
+	ms := regexp.MustCompile(`^[1-9][0-9]*ms$`)
+	if isProvided {
+		if len(delay) > 0 {
+			if b.MatchString(delay) {
+				val, _ = strconv.Atoi(delay)
+			} else if s.MatchString(delay) {
+				val, _ = strconv.Atoi(delay[:len(delay)-1])
+			} else if ms.MatchString(delay) {
+				val, _ = strconv.Atoi(delay[:len(delay)-2])
+				timeUnit = time.Millisecond
+			} else {
+				err = errors.New("Invalid input for delay query")
+			}
+		} else {
+			err = errors.New("delay query needs to have a value")
+		}
+	}
+	return val, timeUnit, err
+}
 
 //Request handler
 func getStatusCode(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	code := vars["code"]
+	delayVal, timeUnit, err := extractDelayQuery(r)
+	if err == nil {
+		time.Sleep(time.Duration(delayVal) * timeUnit)
+	}
 	switch code {
 	case "200":
 		w.WriteHeader(http.StatusOK)
@@ -179,7 +216,7 @@ func HandleRequests() {
 
 	//Set up request handler
 	router.HandleFunc("/status/{code}", getStatusCode)
-
+	//router.Use(mux.CORSMethodMiddleware(router))
 	//Listen for request and log error if any
 	log.Fatal(http.ListenAndServe(helpers.Port(), router))
 }
