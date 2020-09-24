@@ -15,14 +15,16 @@ import (
 func extractDelayQuery(r *http.Request) (int, time.Duration, error) {
 	//Extract "delay" query value if any
 	delays, isProvided := r.URL.Query()["delay"]
-	delay := delays[0]
 	var err error = nil
 	var val int = -1
 	var timeUnit time.Duration = time.Second
 	b := regexp.MustCompile(`^[1-9][0-9]*$`)
 	s := regexp.MustCompile(`^[1-9][0-9]*s$`)
 	ms := regexp.MustCompile(`^[1-9][0-9]*ms$`)
+
+	//Check if the delay query is provided
 	if isProvided {
+		delay := delays[0]
 		if len(delay) > 0 {
 			if b.MatchString(delay) {
 				val, _ = strconv.Atoi(delay)
