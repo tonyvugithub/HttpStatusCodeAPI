@@ -2,12 +2,12 @@
 Description: A simple API endpoint for response http status codes 
 
 ## How to use?
-1. Clones repo and run 
+1. Run in local web server 
    ```go
       go run main.go
    ```
    If you don't have GO, go [here](https://golang.org/) for instructions of installation<br/>
-   Access the endpoint at ***localhost:8080/status/[code number]***<br/>
+   API will be ported at port 8080. And you can access following this format ***localhost:8080/status/[code number]***<br/>
    Eg: localhost:8080/status/404 <br/>
    => This will return a document with **404** status<br/>
 2. Opens executable file by double-clicking release file that is compatible with your system. 
