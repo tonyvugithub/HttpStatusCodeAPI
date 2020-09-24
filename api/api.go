@@ -22,7 +22,7 @@ func extractDelayQuery(r *http.Request) (int, time.Duration, error) {
 	s := regexp.MustCompile(`^[1-9][0-9]*s$`)
 	ms := regexp.MustCompile(`^[1-9][0-9]*ms$`)
 
-	//Check if the delay query is provided
+	//Check if the delay query is provided and extract value
 	if isProvided {
 		delay := delays[0]
 		if len(delay) > 0 {
