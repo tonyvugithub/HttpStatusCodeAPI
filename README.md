@@ -1,4 +1,4 @@
-# HttpStatusCodeAPI
+# What's the status? 
 Description: A simple API endpoint for response http status codes 
 
 ## How to use?
