@@ -46,6 +46,9 @@ func extractDelayQuery(r *http.Request) (int, time.Duration, error) {
 
 //Request handler
 func getStatusCode(w http.ResponseWriter, r *http.Request) {
+
+	file := "static/index.html"
+
 	w.Header().Set("Content-Type", "text/html")
 	vars := mux.Vars(r)
 	code := vars["code"]
@@ -55,194 +58,131 @@ func getStatusCode(w http.ResponseWriter, r *http.Request) {
 	}
 	switch code {
 	case "100":
-		w.WriteHeader(http.StatusContinue)
-		w.Write([]byte(`{"status": "100 Continue"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusContinue) 
 	case "101":
-		w.WriteHeader(http.StatusSwitchingProtocols)
-		w.Write([]byte(`{"status": "101 Switching Protocols "}`))
+		customFileServer.ServeFile(w,r,file, http.StatusSwitchingProtocols) 
 	case "102":
-		w.WriteHeader(http.StatusProcessing)
-		w.Write([]byte(`{"status": "102 Processing "}`))
+		customFileServer.ServeFile(w,r,file, http.StatusProcessing) 
 	case "103":
-		w.WriteHeader(http.StatusEarlyHints)
-		w.Write([]byte(`{"status": "103 Early Hints "}`))
+		customFileServer.ServeFile(w,r,file, http.StatusEarlyHints) 
 	case "200":
-	    //w.WriteHeader(http.StatusEarlyHints)
-		customFileServer.ServeFile(w,r,"static/index.html", 403)
+		customFileServer.ServeFile(w,r,file, http.StatusOK) // here is the change
 	case "201":
-		w.WriteHeader(http.StatusCreated)
-		w.Write([]byte(`{"status": "201 Created"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusCreated)
 	case "202":
-		w.WriteHeader(http.StatusAccepted)
-		w.Write([]byte(`{"status": "202 Accepted"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusAccepted)
 	case "203":
-		w.WriteHeader(http.StatusNonAuthoritativeInfo)
-		w.Write([]byte(`{"status": "203 Non Authorative Info"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusNonAuthoritativeInfo)
 	case "204":
-		w.WriteHeader(http.StatusNoContent)
-		w.Write([]byte(`{"status": "204 No Content"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusNoContent)
 	case "205":
-		w.WriteHeader(http.StatusResetContent)
-		w.Write([]byte(`{"status": "205 Reset Content"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusResetContent)
 	case "206":
-		w.WriteHeader(http.StatusPartialContent)
-		w.Write([]byte(`{"status": "206 Partial Content"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusPartialContent)
 	case "207":
-		w.WriteHeader(http.StatusMultiStatus)
-		w.Write([]byte(`{"status": "207 Multi Status"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusMultiStatus)
 	case "208":
-		w.WriteHeader(http.StatusAlreadyReported)
-		w.Write([]byte(`{"status": "208 Already Reported"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusAlreadyReported)
 	case "226":
-		w.WriteHeader(http.StatusIMUsed)
-		w.Write([]byte(`{"status": "226 IM Used"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusIMUsed)
 	case "300":
-		w.WriteHeader(http.StatusMultipleChoices)
-		w.Write([]byte(`{"status": "300 Multiple Choices"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusMultipleChoices)
 	case "301":
-		w.WriteHeader(http.StatusMovedPermanently)
-		w.Write([]byte(`{"status": "301 Moved Permanently"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusMovedPermanently)
 	case "302":
-		w.WriteHeader(http.StatusFound)
-		w.Write([]byte(`{"status": "302 Found"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusFound)
 	case "303":
-		w.WriteHeader(http.StatusSeeOther)
-		w.Write([]byte(`{"status": "303 See Other"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusSeeOther)
 	case "304":
-		w.WriteHeader(http.StatusNotModified)
-		w.Write([]byte(`{"status": "304 Not Modified"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusNotModified)
 	case "305":
-		w.WriteHeader(http.StatusUseProxy)
-		w.Write([]byte(`{"status": "305 Use Proxy"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusUseProxy)
 	case "306":
-		w.WriteHeader(306)
-		w.Write([]byte(`{"status": "306 Unused"}`))
+		customFileServer.ServeFile(w,r,file, 306)
 	case "307":
-		w.WriteHeader(http.StatusTemporaryRedirect)
-		w.Write([]byte(`{"status": "307 Temporary Redirect"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusTemporaryRedirect)
 	case "308":
-		w.WriteHeader(http.StatusPermanentRedirect)
-		w.Write([]byte(`{"status": "308 Permanent Redirect"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusPermanentRedirect)
 	case "400":
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(`{"status": "400 Bad Request"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusBadRequest)
 	case "401":
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte(`{"status": "401 Unauthorized"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusUnauthorized)
 	case "402":
-		w.WriteHeader(http.StatusPaymentRequired)
-		w.Write([]byte(`{"status": "402 Payment Required"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusPaymentRequired)
 	case "403":
-		w.WriteHeader(http.StatusForbidden)
-		w.Write([]byte(`{"status": "403 Forbidden"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusForbidden)
 	case "404":
-		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte(`{"status": "404 Not Found"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusNotFound)
 	case "405":
-		w.WriteHeader(http.StatusMethodNotAllowed)
-		w.Write([]byte(`{"status": "405 Method Not Allowed"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusMethodNotAllowed)
 	case "406":
-		w.WriteHeader(http.StatusNotAcceptable)
-		w.Write([]byte(`{"status": "406 Not Acceptable"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusNotAcceptable)
 	case "407":
-		w.WriteHeader(http.StatusProxyAuthRequired)
-		w.Write([]byte(`{"status": "407 Proxy Authentication Required"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusProxyAuthRequired)
 	case "408":
-		w.WriteHeader(http.StatusRequestTimeout)
-		w.Write([]byte(`{"status": "408 Request Timeout"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusRequestTimeout)
 	case "409":
-		w.WriteHeader(http.StatusConflict)
-		w.Write([]byte(`{"status": "409 Conflict"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusConflict)
 	case "410":
-		w.WriteHeader(http.StatusGone)
-		w.Write([]byte(`{"status": "410 Gone"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusGone)
 	case "411":
-		w.WriteHeader(http.StatusLengthRequired)
-		w.Write([]byte(`{"status": "411 Length Required"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusLengthRequired)
 	case "412":
-		w.WriteHeader(http.StatusPreconditionFailed)
-		w.Write([]byte(`{"status": "412 Precondition Failed"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusPreconditionFailed)
 	case "413":
-		w.WriteHeader(http.StatusRequestEntityTooLarge)
-		w.Write([]byte(`{"status": "413 Request Entity Too Large"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusRequestEntityTooLarge)
 	case "414":
-		w.WriteHeader(http.StatusRequestURITooLong)
-		w.Write([]byte(`{"status": "414 Request URI Too Long"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusRequestURITooLong)
 	case "415":
-		w.WriteHeader(http.StatusUnsupportedMediaType)
-		w.Write([]byte(`{"status": "415 Unsupported Media Type"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusUnsupportedMediaType)
 	case "416":
-		w.WriteHeader(http.StatusRequestedRangeNotSatisfiable)
-		w.Write([]byte(`{"status": "416 Requested Range Not Satisfiable"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusRequestedRangeNotSatisfiable)
 	case "417":
-		w.WriteHeader(http.StatusExpectationFailed)
-		w.Write([]byte(`{"status": "417 Expectation Failed"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusExpectationFailed)
 	case "418":
-		w.WriteHeader(http.StatusTeapot)
-		w.Write([]byte(`{"status": "418 Teapot"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusTeapot)
 	case "421":
-		w.WriteHeader(http.StatusMisdirectedRequest)
-		w.Write([]byte(`{"status": "421 Misdirected Request"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusMisdirectedRequest)
 	case "422":
-		w.WriteHeader(http.StatusUnprocessableEntity)
-		w.Write([]byte(`{"status": "422 Unprocessable Entity"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusUnprocessableEntity)
 	case "423":
-		w.WriteHeader(http.StatusLocked)
-		w.Write([]byte(`{"status": "423 Locked"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusLocked)
 	case "424":
-		w.WriteHeader(http.StatusFailedDependency)
-		w.Write([]byte(`{"status": "424 Failed Dependency"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusFailedDependency)
 	case "426":
-		w.WriteHeader(http.StatusUpgradeRequired)
-		w.Write([]byte(`{"status": "426 Upgrade Required"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusUpgradeRequired)
 	case "428":
-		w.WriteHeader(http.StatusPreconditionRequired)
-		w.Write([]byte(`{"status": "428 Precondition Failed"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusPreconditionRequired)
 	case "429":
-		w.WriteHeader(http.StatusTooManyRequests)
-		w.Write([]byte(`{"status": "429 Too Many Requests"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusTooManyRequests)
 	case "431":
-		w.WriteHeader(http.StatusRequestHeaderFieldsTooLarge)
-		w.Write([]byte(`{"status": "431 Request Header Fields Too Large"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusRequestHeaderFieldsTooLarge)
 	case "451":
-		w.WriteHeader(http.StatusUnavailableForLegalReasons)
-		w.Write([]byte(`{"status": "451 Unavailable For Legal Reasons"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusUnavailableForLegalReasons)
 	case "500":
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`{"status": "500 Internal Server Error"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusInternalServerError)
 	case "501":
-		w.WriteHeader(http.StatusNotImplemented)
-		w.Write([]byte(`{"status": "501 Not Implemented"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusNotImplemented)
 	case "502":
-		w.WriteHeader(http.StatusBadGateway)
-		w.Write([]byte(`{"status": "502 Bad Gateway"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusBadGateway)
 	case "503":
-		w.WriteHeader(http.StatusServiceUnavailable)
-		w.Write([]byte(`{"status": "503 Service Unavailable"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusServiceUnavailable)
 	case "504":
-		w.WriteHeader(http.StatusGatewayTimeout)
-		w.Write([]byte(`{"status": "504 Gateway Timeout"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusGatewayTimeout)
 	case "505":
-		w.WriteHeader(http.StatusHTTPVersionNotSupported)
-		w.Write([]byte(`{"status": "505 HTTP Version Not Supported"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusHTTPVersionNotSupported)
 	case "506":
-		w.WriteHeader(http.StatusVariantAlsoNegotiates)
-		w.Write([]byte(`{"status": "506 Variant Also Negotiates"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusVariantAlsoNegotiates)
 	case "507":
-		w.WriteHeader(http.StatusInsufficientStorage)
-		w.Write([]byte(`{"status": "507 Insufficient Storage"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusInsufficientStorage)
 	case "508":
-		w.WriteHeader(http.StatusLoopDetected)
-		w.Write([]byte(`{"status": "508 Loop Detected"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusLoopDetected)
 	case "509":
-		w.WriteHeader(509)
-		w.Write([]byte(`{"status": "509 Unassigned"}`))
+		customFileServer.ServeFile(w,r,file, 509)
 	case "510":
-		w.WriteHeader(http.StatusNotExtended)
-		w.Write([]byte(`{"status": "510 Not Extended"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusNotExtended)
 	case "511":
-		w.WriteHeader(http.StatusNetworkAuthenticationRequired)
-		w.Write([]byte(`{"status": "511 Network Authentication Required"}`))
+		customFileServer.ServeFile(w,r,file, http.StatusNetworkAuthenticationRequired)
 	}
 }
 
