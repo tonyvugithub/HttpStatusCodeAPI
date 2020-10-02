@@ -10,6 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/tonyvugithub/statusCodeApi/helpers"
+	"github.com/tonyvugithub/statusCodeApi/customFileServer"
 )
 
 func extractDelayQuery(r *http.Request) (int, time.Duration, error) {
@@ -45,7 +46,7 @@ func extractDelayQuery(r *http.Request) (int, time.Duration, error) {
 
 //Request handler
 func getStatusCode(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "text/html")
 	vars := mux.Vars(r)
 	code := vars["code"]
 	delayVal, timeUnit, err := extractDelayQuery(r)
@@ -66,8 +67,8 @@ func getStatusCode(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusEarlyHints)
 		w.Write([]byte(`{"status": "103 Early Hints "}`))
 	case "200":
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"status": "200 OK"}`))
+	    //w.WriteHeader(http.StatusEarlyHints)
+		customFileServer.ServeFile(w,r,"static/index.html", 403)
 	case "201":
 		w.WriteHeader(http.StatusCreated)
 		w.Write([]byte(`{"status": "201 Created"}`))
