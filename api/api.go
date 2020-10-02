@@ -10,6 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/tonyvugithub/statusCodeApi/helpers"
+	"github.com/tonyvugithub/statusCodeApi/customFileServer"
 )
 
 func extractDelayQuery(r *http.Request) (int, time.Duration, error) {
@@ -45,7 +46,7 @@ func extractDelayQuery(r *http.Request) (int, time.Duration, error) {
 
 //Request handler
 func getStatusCode(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "text/html")
 	vars := mux.Vars(r)
 	code := vars["code"]
 	delayVal, timeUnit, err := extractDelayQuery(r)
@@ -53,9 +54,21 @@ func getStatusCode(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(time.Duration(delayVal) * timeUnit)
 	}
 	switch code {
+	case "100":
+		w.WriteHeader(http.StatusContinue)
+		w.Write([]byte(`{"status": "100 Continue"}`))
+	case "101":
+		w.WriteHeader(http.StatusSwitchingProtocols)
+		w.Write([]byte(`{"status": "101 Switching Protocols "}`))
+	case "102":
+		w.WriteHeader(http.StatusProcessing)
+		w.Write([]byte(`{"status": "102 Processing "}`))
+	case "103":
+		w.WriteHeader(http.StatusEarlyHints)
+		w.Write([]byte(`{"status": "103 Early Hints "}`))
 	case "200":
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"status": "200 OK"}`))
+	    //w.WriteHeader(http.StatusEarlyHints)
+		customFileServer.ServeFile(w,r,"static/index.html", 403)
 	case "201":
 		w.WriteHeader(http.StatusCreated)
 		w.Write([]byte(`{"status": "201 Created"}`))
@@ -65,6 +78,12 @@ func getStatusCode(w http.ResponseWriter, r *http.Request) {
 	case "203":
 		w.WriteHeader(http.StatusNonAuthoritativeInfo)
 		w.Write([]byte(`{"status": "203 Non Authorative Info"}`))
+	case "204":
+		w.WriteHeader(http.StatusNoContent)
+		w.Write([]byte(`{"status": "204 No Content"}`))
+	case "205":
+		w.WriteHeader(http.StatusResetContent)
+		w.Write([]byte(`{"status": "205 Reset Content"}`))
 	case "206":
 		w.WriteHeader(http.StatusPartialContent)
 		w.Write([]byte(`{"status": "206 Partial Content"}`))
@@ -80,15 +99,24 @@ func getStatusCode(w http.ResponseWriter, r *http.Request) {
 	case "300":
 		w.WriteHeader(http.StatusMultipleChoices)
 		w.Write([]byte(`{"status": "300 Multiple Choices"}`))
+	case "301":
+		w.WriteHeader(http.StatusMovedPermanently)
+		w.Write([]byte(`{"status": "301 Moved Permanently"}`))
 	case "302":
 		w.WriteHeader(http.StatusFound)
 		w.Write([]byte(`{"status": "302 Found"}`))
 	case "303":
 		w.WriteHeader(http.StatusSeeOther)
 		w.Write([]byte(`{"status": "303 See Other"}`))
+	case "304":
+		w.WriteHeader(http.StatusNotModified)
+		w.Write([]byte(`{"status": "304 Not Modified"}`))
 	case "305":
 		w.WriteHeader(http.StatusUseProxy)
 		w.Write([]byte(`{"status": "305 Use Proxy"}`))
+	case "306":
+		w.WriteHeader(306)
+		w.Write([]byte(`{"status": "306 Unused"}`))
 	case "307":
 		w.WriteHeader(http.StatusTemporaryRedirect)
 		w.Write([]byte(`{"status": "307 Temporary Redirect"}`))
@@ -116,6 +144,9 @@ func getStatusCode(w http.ResponseWriter, r *http.Request) {
 	case "406":
 		w.WriteHeader(http.StatusNotAcceptable)
 		w.Write([]byte(`{"status": "406 Not Acceptable"}`))
+	case "407":
+		w.WriteHeader(http.StatusProxyAuthRequired)
+		w.Write([]byte(`{"status": "407 Proxy Authentication Required"}`))
 	case "408":
 		w.WriteHeader(http.StatusRequestTimeout)
 		w.Write([]byte(`{"status": "408 Request Timeout"}`))
@@ -165,7 +196,7 @@ func getStatusCode(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUpgradeRequired)
 		w.Write([]byte(`{"status": "426 Upgrade Required"}`))
 	case "428":
-		w.WriteHeader(http.StatusPreconditionFailed)
+		w.WriteHeader(http.StatusPreconditionRequired)
 		w.Write([]byte(`{"status": "428 Precondition Failed"}`))
 	case "429":
 		w.WriteHeader(http.StatusTooManyRequests)
@@ -203,6 +234,9 @@ func getStatusCode(w http.ResponseWriter, r *http.Request) {
 	case "508":
 		w.WriteHeader(http.StatusLoopDetected)
 		w.Write([]byte(`{"status": "508 Loop Detected"}`))
+	case "509":
+		w.WriteHeader(509)
+		w.Write([]byte(`{"status": "509 Unassigned"}`))
 	case "510":
 		w.WriteHeader(http.StatusNotExtended)
 		w.Write([]byte(`{"status": "510 Not Extended"}`))
